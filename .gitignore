@@ -367,3 +367,8 @@ dist
 # Cython debug symbols
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,python,node,macos
+
+
+compile_css.sh 
+package-lock.json
+tailwind.config.js

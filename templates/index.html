@@ -2,6 +2,57 @@
 
 {% block content %}
 
-<h1>Hello world</h1>
+<div class="
+    flex flex-col items-center gap-4
+    w-44 h-screen absolute
+    text-3xl bg-gray-300">
+    <a class="font-bold mt-3" href="#">Actichat</a>
+    <div class="m-1 bg-black w-3/4 h-px"></div>
+    <a href="#">Home</a>
+    <a href="#">Join</a>
+    <a href="#">Create</a>
+</div>
+
+<main class="ml-44">
+    <div class="h-max-content" id="chat">
+     
+    </div>
+    
+    <div class="flex justify-center gap-10">
+        <input class="p-3 text-xl rounded w-auto" id="message" type="text">
+        <button class="bg-gray-600 text-xl p-3 rounded" id="send">Send</button>
+    </div>
+</main>
+
+<script>
+
+    const message = document.getElementById('message')
+    const send = document.getElementById('send')
+    const chat = document.getElementById('chat')
+
+    const socket = io()
+
+    socket.on('connect', () => {
+        console.log('connected to server')
+        socket.emit('hello', 'Hello server!')
+    });
+
+    socket.on('message', (data) => {
+        console.log({data})
+        let h1 = document.createElement('h1');
+        h1.innerHTML = data
+        chat.appendChild(h1)
+    });
+
+    send.onclick = () => {
+        console.log('clicked')
+        if(message.value != ''){
+            socket.emit('message', message.value)
+            message.value = ''
+            console.log('sent message')
+        } 
+    };
+
+</script>
 
 {% endblock content %}
