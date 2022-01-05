@@ -372,3 +372,4 @@ dist
 compile_css.sh 
 package-lock.json
 tailwind.config.js
+.vscode

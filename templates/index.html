@@ -13,46 +13,16 @@
     <a href="#">Create</a>
 </div>
 
-<main class="ml-44">
-    <div class="h-max-content" id="chat">
-     
+<main class="ml-44 h-full">
+    <div class="h-max-content flex flex-col gap-6" id="chat">
     </div>
     
-    <div class="flex justify-center gap-10">
+    <div class="flex justify-center gap-10 h-15">
         <input class="p-3 text-xl rounded w-auto" id="message" type="text">
-        <button class="bg-gray-600 text-xl p-3 rounded" id="send">Send</button>
+        <button class="bg-gray-600 text-xl text-white p-3 rounded" id="send">Send</button>
     </div>
 </main>
 
-<script>
-
-    const message = document.getElementById('message')
-    const send = document.getElementById('send')
-    const chat = document.getElementById('chat')
-
-    const socket = io()
-
-    socket.on('connect', () => {
-        console.log('connected to server')
-        socket.emit('hello', 'Hello server!')
-    });
-
-    socket.on('message', (data) => {
-        console.log({data})
-        let h1 = document.createElement('h1');
-        h1.innerHTML = data
-        chat.appendChild(h1)
-    });
-
-    send.onclick = () => {
-        console.log('clicked')
-        if(message.value != ''){
-            socket.emit('message', message.value)
-            message.value = ''
-            console.log('sent message')
-        } 
-    };
-
-</script>
+<script src="{{ url_for('static', filename='messages.js') }}"></script>
 
 {% endblock content %}
