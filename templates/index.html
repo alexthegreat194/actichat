@@ -4,18 +4,9 @@
 
 {% include 'partials/navbar.html' %}
 
-<main class="ml-44 h-screen n
-    flex flex-col">
-    <div class="h-max-content flex flex-col gap-6 flex-1 overflow-auto" id="chat">
-    </div>
-    
-    <div class="flex justify-center gap-10 h-15 
-        sticky bottom-10 left-1/2">
-        <input class="p-3 text-xl rounded w-auto" id="message" type="text">
-        <button class="bg-gray-600 text-xl text-white p-3 rounded" id="send">Send</button>
-    </div>
+<main class="ml-44">
+    <h1>This is the idnex</h1>
 </main>
 
-<script src="{{ url_for('static', filename='messages.js') }}"></script>
 
 {% endblock content %}

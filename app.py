@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send
 
@@ -6,19 +7,21 @@ app.config['SECRET_KEY'] = 'secret ;)'
 
 socketio = SocketIO(app)
 
+codes = [1234]
+
+
 # Sockets
 
 @socketio.on('hello')
 def handle_connect(data):
     print('received json: ' + str(data))
-    for i in range(10):
+    for i in range(5):
         emit('message', 'Hello!')
 
 @socketio.on('message')
 def handle_message(data):
     print('received json: ' + str(data))
-    send(data)
-
+    emit('message', data)
 
 # Routes
 
@@ -36,13 +39,20 @@ def join_post():
         'name': request.form.get('name'),
         'code': request.form.get('code')
     }
-    return redirect(url_for('chat_join', code=data['code']))
+    if data['name'] == '':
+        return redirect(url_for('chat_join', code=data['code']))
+    else:
+        return redirect(url_for('chat_join', code=data['code'], name=data['name']))
 
 @app.route('/chat', methods=['GET'])
 def chat():
-    pass
+    return redirect(url_for('join'))
 
-@app.route('/chat/<code>', methods=['GET'])
-def chat_join(code):
-    return redirect(url_for('index'))
+@app.route('/chat/<code>', defaults={'name':None}, methods=['GET'])
+@app.route('/chat/<code>/<name>', methods=['GET'])
+def chat_join(code, name):
+    if code == None:
+        code = "Anonymous"
+    
+    return render_template('chat.html', code=code, name=name)
  
