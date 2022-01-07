@@ -34,6 +34,14 @@ send.onclick = () => {
     } 
 };
 
+message.addEventListener('keyup', (event) => {
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        send.click();
+    }
+});
 
 socket.on('message', (data) => {
     console.log({data})
