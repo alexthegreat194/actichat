@@ -6,5 +6,5 @@
 - Make send button a form
 - create invite system
 - create button
-- make list of chats
 - make url not have data in it :)
+- make message send if code is real

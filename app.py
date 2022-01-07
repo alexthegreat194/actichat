@@ -8,20 +8,32 @@ app.config['SECRET_KEY'] = 'secret ;)'
 socketio = SocketIO(app)
 
 codes = [1234]
-
+clients = {}
 
 # Sockets
 
-@socketio.on('hello')
-def handle_connect(data):
+@socketio.on('client_connect')
+def connect(data):
     print('received json: ' + str(data))
-    for i in range(5):
-        emit('message', 'Hello!')
+    clients[request.sid] = data['code']
+    print(clients)
+
+@socketio.on('disconnect')
+def disconnect():
+    print('client disconnected: ' + str(request.sid))
+    del clients[request.sid]
 
 @socketio.on('message')
 def handle_message(data):
     print('received json: ' + str(data))
-    emit('message', data)
+    keys = clients.keys()
+    clients_to_send = []
+    for key in keys:
+        if clients[key] == data['code']:
+            clients_to_send.append(key)
+    print('Sending to clients: ' + str(clients_to_send))
+    emit('message', data, broadcast=True, rooms=clients_to_send)
+
 
 # Routes
 
