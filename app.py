@@ -1,17 +1,20 @@
 from datetime import datetime
+from os import name
+import random
+import string
+
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret ;)'
 
 socketio = SocketIO(app)
 
-codes = [1234]
 clients = {}
 
 # Sockets
-
 @socketio.on('client_connect')
 def connect(data):
     print('received json: ' + str(data))
@@ -36,7 +39,6 @@ def handle_message(data):
 
 
 # Routes
-
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -52,19 +54,33 @@ def join_post():
         'code': request.form.get('code')
     }
     if data['name'] == '':
-        return redirect(url_for('chat_join', code=data['code']))
-    else:
-        return redirect(url_for('chat_join', code=data['code'], name=data['name']))
+        data['name'] = 'Anonymous'
+    return redirect(url_for('chat_join') + f"?code={data['code']}&name={data['name']}", code=307) #sends as post
+    
 
 @app.route('/chat', methods=['GET'])
 def chat():
     return redirect(url_for('join'))
 
-@app.route('/chat/<code>', defaults={'name':None}, methods=['GET'])
-@app.route('/chat/<code>/<name>', methods=['GET'])
-def chat_join(code, name):
-    if code == None:
-        code = "Anonymous"
-    
+@app.route('/chat', defaults={'name':'Anonymous', 'code': ''}, methods=['POST'])
+def chat_join(name, code):
+    name = request.args.get('name')
+    code = request.args.get('code')
     return render_template('chat.html', code=code, name=name)
- 
+
+@app.route('/create', methods=['GET'])
+def create():
+    return render_template('create.html')
+
+@app.route('/create', methods=['POST'])
+def create_post():
+    name = request.form.get('name')
+    code = ""
+    for i in range(8):
+        code += random.choice(string.ascii_lowercase)
+    print('new code: ' + str(code) + " from " + str(name))
+    if name != '':
+        name = 'Anonymous'
+    
+    return redirect(url_for('chat_join') + f"?code={code}&name={name}", code=307) #sends as post
+
