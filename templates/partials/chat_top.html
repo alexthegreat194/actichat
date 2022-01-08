@@ -1,0 +1,18 @@
+<div class="flex flex-col items-center gap-2 mt-16">
+    <h1 class="text-7xl font-bold">Welcome</h1>
+    <h5 class="text-xl font-extralight">this is the start of the chat. invite your friends with the code or copy the link</h5>
+    {% if code %}
+        <script>
+            async function copyLink(code){
+                await navigator.clipboard.writeText(code);
+                alert('Copied invite link');
+            }
+        </script>
+        <h3 class="text-2xl">Code: {{ code }}</h3>
+        <button onclick="copyLink('{{ code }}')" class="
+            bg-gray-600 text-gray-50 text-xl
+            rounded-xl p-3 px-5
+            transition-all hover:rounded-lg">Copy link</button>
+    {% endif %}
+    <div class="h-px w-11/12 mt-10 bg-gray-400 drop-shadow-xl"></div>
+</div>
