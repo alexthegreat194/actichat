@@ -43,6 +43,14 @@ message.addEventListener('keyup', (event) => {
     }
 });
 
+// adjust scroll height when on bottom
+function updateScroll(){
+    let scrollDist = Math.abs(chat.offsetHeight + chat.scrollTop-chat.scrollHeight);
+    chat.scrollTop = chat.scrollHeight;
+    
+}
+
+
 socket.on('message', (data) => {
     console.log({data})
     if(data.code == chat.dataset.code){
@@ -66,6 +74,7 @@ socket.on('message', (data) => {
         messageDiv.appendChild(messageText)
         messageDiv.appendChild(messageTime)
         chat.appendChild(messageDiv)
+        updateScroll()
     }
 
 });
