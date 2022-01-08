@@ -9,6 +9,7 @@ from flask_socketio import SocketIO, emit, send
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret ;)'
+app.config['SERVER_NAME'] = '127.0.0.1:5000'
 
 socketio = SocketIO(app)
 
@@ -46,6 +47,10 @@ def index():
 @app.route('/join', methods=['GET'])
 def join():
     return render_template('join.html')
+
+@app.route('/join/<code>', methods=['GET'])
+def join_code(code):
+    return render_template('join.html', code=code)
 
 @app.route('/join', methods=['POST'])
 def join_post():
