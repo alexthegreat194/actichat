@@ -47,7 +47,6 @@ message.addEventListener('keyup', (event) => {
 function updateScroll(){
     let scrollDist = Math.abs(chat.offsetHeight + chat.scrollTop-chat.scrollHeight);
     chat.scrollTop = chat.scrollHeight;
-    
 }
 
 

@@ -27,13 +27,23 @@
             <div class="flex flex-col items-center gap-2">
                 <h3 class="font-semibold text-6xl">Join a chat</h3>
                 <p class="font-light text-xl">You can join chats with invite codes or links by friends</p>
-                <a class="font-light text-3xl bg-gray-400 rounded p-2 px-4 hover:bg-gray-500 transition-colors shadow hover:shadow-md transition-shadow" href="{{ url_for('join') }}">Join</a>
+                <a class="bg-gray-500 text-gray-100 font-extralight text-3xl
+                transition-all hover:bg-gray-600 hover:shadow-lg
+                rounded shadow 
+                w-min p-3 
+                cursor-pointer
+                self-center" href="{{ url_for('join') }}">Join</a>
             </div>
         
             <div class="flex flex-col items-center gap-2">
                 <h3 class="font-semibold text-6xl">Create a chat</h3>
                 <p class="font-light text-xl">Create a new empty for you and your friends</p>
-                <a class="font-light text-3xl bg-gray-400 rounded p-2 px-4 hover:bg-gray-500 transition-colors shadow hover:shadow-md transition-shadow" href="{{ url_for('create') }}">Create</a>
+                <a class="bg-gray-500 text-gray-100 font-extralight text-3xl
+                transition-all hover:bg-gray-600 hover:shadow-lg
+                rounded shadow 
+                w-min p-3 
+                cursor-pointer
+                self-center" href="{{ url_for('create') }}">Create</a>
             </div>
         </div>
     </div>
