@@ -19,22 +19,31 @@ clients = {}
 @socketio.on('client_connect')
 def connect(data):
     print('received json: ' + str(data))
-    clients[request.sid] = data['code']
+    if data['code'] not in clients.keys():
+        clients[data['code']] = []
+    clients[data['code']].append(request.sid)
+        
     print(clients)
 
 @socketio.on('disconnect')
 def disconnect():
     print('client disconnected: ' + str(request.sid))
-    del clients[request.sid]
+    stop = False
+    for key in clients.keys():
+        for id in clients[key]:
+            if id == request.sid:
+                clients['key'].remove(id)
+                if len(clients['key'] == 0):
+                    del clients['key']
+                stop = True
+                break
+        if stop:
+            break
 
 @socketio.on('message')
 def handle_message(data):
     print('received json: ' + str(data))
-    keys = clients.keys()
-    clients_to_send = []
-    for key in keys:
-        if clients[key] == data['code']:
-            clients_to_send.append(key)
+    clients_to_send = clients[data['code']]
     print('Sending to clients: ' + str(clients_to_send))
     emit('message', data, broadcast=True, rooms=clients_to_send)
 
