@@ -3,26 +3,24 @@
     w-16 h-screen absolute px-4
     text-4xl overflow-hidden object-none
     transition-width ease-in-out hover:w-max
-    bg-gray-300"
+    bg-secondary"
     id="nav-div">
 
-    <!-- TODO make resizeing work -->
-
-    <nav class="grid grid-rows-4 gap-10 overflow-hidden">
-        <a class="font-bold mt-3 overflow-hidden truncate text-clip" href="#">
-            <img src="{{ url_for('static', filename='icons/globe.svg') }}" alt="Globe" class="w-8 inline">
+    <nav class="grid grid-rows-4 gap-10 overflow-hidden text-gray-50">
+        <a class="text-gray-50 font-bold mt-3 overflow-hidden truncate text-clip" href="#">
+            <img src="{{ url_for('static', filename='icons/globe.svg') }}" alt="Globe" class="w-8 inline invert">
             Actichat
         </a>
         <a class="font-light overflow-hidden truncate text-clip" href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='icons/home.svg') }}" alt="Home" class="w-8 inline">
+            <img src="{{ url_for('static', filename='icons/home.svg') }}" alt="Home" class="w-8 inline invert">
             Home
         </a>
         <a class="font-light overflow-hidden truncate text-clip" href="{{ url_for('join') }}">
-            <img src="{{ url_for('static', filename='icons/join.svg') }}" alt="Join" class="w-8 inline">
+            <img src="{{ url_for('static', filename='icons/join.svg') }}" alt="Join" class="w-8 inline invert">
             Join
         </a>
         <a class="font-light overflow-hidden truncate text-clip" href="{{ url_for('create') }}">
-            <img src="{{ url_for('static', filename='icons/add.svg') }}" alt="Add" class="w-8 inline">
+            <img src="{{ url_for('static', filename='icons/add.svg') }}" alt="Add" class="w-8 inline invert">
             Create
         </a>
     </nav>
