@@ -34,9 +34,9 @@ def disconnect():
     for key in clients.keys():
         for id in clients[key]:
             if id == request.sid:
-                clients['key'].remove(id)
-                if len(clients['key'] == 0):
-                    del clients['key']
+                clients[key].remove(id)
+                if len(clients[key])== 0:
+                    del clients[key]
                 stop = True
                 break
         if stop:

@@ -465,12 +465,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 1.25rem;
 }
 
-.ml-44 {
-  margin-left: 11rem;
+.ml-16 {
+  margin-left: 4rem;
 }
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.ml-44 {
+  margin-left: 11rem;
 }
 
 .mt-1 {
@@ -593,8 +597,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-evenly;
 }
 
-.gap-6 {
-  gap: 1.5rem;
+.gap-0 {
+  gap: 0px;
 }
 
 .gap-10 {
@@ -794,8 +798,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: max-content;
 }
 
-.hover\:rounded-lg:hover {
-  border-radius: 0.5rem;
+.hover\:text-tertiary:hover {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-lg:hover {

@@ -7,26 +7,26 @@
 
 <main class="ml-44">
     <div class="flex flex-col items-center justify-center h-screen">
-        <h1 class=" text-6xl font-bold m-4">Join via invite code</h1>
+        <h1 class="text-tertiary text-6xl font-bold m-4">Join via invite code</h1>
         <form action="{{ url_for('join') }}"  method="post" class="
             flex flex-col gap-7
-            text-4xl font-extralight">
+            text-info text-4xl font-extralight">
             <div class="flex flex-col">
-                <label for="code">Code <span class="text-red-900">*</span></label>
+                <label for="code">Code <span class="text-tertiary">*</span></label>
                 {% if code %}
-                    <input class="p-2 mt-1 shadow rounded" type="text" name="code" id="code" value="{{ code }}" required>
+                    <input class="text-gray-900 p-2 mt-1 shadow rounded" type="text" name="code" id="code" value="{{ code }}" required>
                 {% else %}
-                    <input class="p-2 mt-1 shadow rounded" type="text" name="code" id="code" required>  
+                    <input class="text-gray-900 p-2 mt-1 shadow rounded" type="text" name="code" id="code" required>  
                 {% endif %}
                 <small class="text-sm">This code should be given to you by the chat's creator</small>
             </div>
             <div class="flex flex-col">
                 <label for="name">Username</label>
-                <input class="p-2 mt-1 shadow rounded" type="text" name="name" id="name">
+                <input class="text-gray-900 p-2 mt-1 shadow rounded" type="text" name="name" id="name">
                 <small class="text-sm">If you want to stay anonymous leave this blank</small>
             </div>
             <input type="submit" value="Submit"
-            class="bg-gray-500 text-gray-100 font-extralight text-3xl
+            class="bg-gray-700 text-gray-100 font-extralight text-3xl
                 transition-all hover:bg-gray-600 hover:shadow-lg
                 rounded shadow 
                 w-min p-3 

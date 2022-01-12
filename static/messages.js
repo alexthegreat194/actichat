@@ -6,7 +6,6 @@ const socket = io();
 
 window.addEventListener('beforeunload', (e) => {
     socket.disconnect()
-
     // Cancel the event
     e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
     // Chrome requires returnValue to be set
@@ -49,29 +48,32 @@ function updateScroll(){
     chat.scrollTop = chat.scrollHeight;
 }
 
-
+let offset = false
 socket.on('message', (data) => {
     console.log({data})
     if(data.code == chat.dataset.code){
         const messageDiv = document.createElement('div');
-        const messageSender = document.createElement('h5')
-        const messageText = document.createElement('h1');
-        const messageTime = document.createElement('h5');
-
-        messageDiv.className = "max-w-1/3 flex flex-col items-end mx-10"
-
-        messageSender.className = "text-sm "
+        const messageSender = document.createElement('span')
+        const messageText = document.createElement('span');
+        const messageTime = document.createElement('span');
+        
+        messageTime.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
         messageSender.innerText = data.name
-
-        messageText.className = "bg-gray-300 p-2 text-xl rounded w-min"
         messageText.innerText = data.message
+        
+        messageDiv.className = " p-2 border-gray-800 border-y-2"
+        if (offset){
+            messageDiv.classList.add('bg-secondary');
+        }
+        offset = !offset;
 
-        messageTime.className = "text-sm"
-        messageTime.innerText = new Date().toLocaleTimeString()
+        messageTime.className = "text-gray-700 mx-2 text-xl"
+        messageSender.className = "text-tertiary mx-2 text-xl"
+        messageText.className = "text-info mx-2 text-xl"
 
+        messageDiv.appendChild(messageTime)
         messageDiv.appendChild(messageSender)
         messageDiv.appendChild(messageText)
-        messageDiv.appendChild(messageTime)
         chat.appendChild(messageDiv)
         updateScroll()
     }
