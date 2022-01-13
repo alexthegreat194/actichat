@@ -95,7 +95,7 @@ def create_post():
     for i in range(8):
         code += random.choice(string.ascii_lowercase)
     print('new code: ' + str(code) + " from " + str(name))
-    if name != '':
+    if name == '':
         name = 'Anonymous'
     
     return redirect(url_for('chat_join') + f"?code={code}&name={name}", code=307) #sends as post
