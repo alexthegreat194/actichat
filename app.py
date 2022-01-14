@@ -6,12 +6,9 @@ import string
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send
 
-# build css
-os.system('./compile_css.sh')
-
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret ;)'
-app.config['SERVER_NAME'] = '127.0.0.1:5000'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+# app.config['SERVER_NAME'] = '127.0.0.1:5000'
 
 socketio = SocketIO(app)
 
