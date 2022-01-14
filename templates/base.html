@@ -7,8 +7,26 @@
         </style>
 
         <!-- temp cdn for development -->
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script>
+            module.exports = {
+                content: ["./templates/**/*.{html,js}"],
+                theme: {
+                  colors: {
+                    'primary': '#111827',
+                    'secondary': '#1f2937',
+                    'tertiary': '#b91c1c',
+                    'info': '#f3f4f6',
+                  },
+                  extend: {
+                    transitionProperty: {
+                      'width': 'width'
+                    },
+                  },
+                },
+                plugins: [],
+              }
+        </script>
 
         <!-- socket.io -->
         <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>

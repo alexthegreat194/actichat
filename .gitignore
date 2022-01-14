@@ -373,3 +373,5 @@ compile_css.sh
 package-lock.json
 tailwind.config.js
 .vscode
+postcss.config.js
+package.json
