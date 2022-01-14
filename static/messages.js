@@ -2,7 +2,7 @@ const message = document.getElementById('message')
 const send = document.getElementById('send')
 const chat = document.getElementById('chat')
 
-const socket = io();
+const socket = io('actichat.herokuapp.com');
 
 window.addEventListener('beforeunload', (e) => {
     socket.disconnect()

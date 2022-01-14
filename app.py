@@ -4,7 +4,7 @@ import random
 import string
 
 from flask import Flask, render_template, url_for, request, redirect
-from flask_socketio import SocketIO, emit, send
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
