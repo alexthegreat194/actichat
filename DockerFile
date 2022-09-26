@@ -1,7 +1,12 @@
-FROM python:latest
+FROM python:3.9.7
 WORKDIR .
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 ADD . .
+
+ENV FLASK_APP=app
+ENV FLASK_ENV=production
+
 EXPOSE 3000:3000
-CMD ["flask", "run"]
+
+CMD ["python3", "app.py"]

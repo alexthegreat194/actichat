@@ -97,3 +97,5 @@ def create_post():
     
     return redirect(url_for('chat_join') + f"?code={code}&name={name}", code=307) #sends as post
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
