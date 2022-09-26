@@ -375,3 +375,4 @@ tailwind.config.js
 .vscode
 postcss.config.js
 package.json
+/env

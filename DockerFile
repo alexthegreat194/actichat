@@ -1,0 +1,7 @@
+FROM python:latest
+WORKDIR .
+ADD requirements.txt .
+RUN pip3 install requirements.txt
+ADD . .
+EXPOSE 3000:3000
+CMD ["flask", "run"]
