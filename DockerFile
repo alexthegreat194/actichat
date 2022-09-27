@@ -6,7 +6,8 @@ ADD . .
 
 ENV FLASK_APP=app
 ENV FLASK_ENV=production
+ENV SECRET_KEY=funnykey
 
-EXPOSE 3000:3000
+EXPOSE 3000
 
-CMD ["python3", "app.py"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port", "3000"]
