@@ -3,10 +3,14 @@ import os
 import random
 import string
 
+import eventlet
+# eventlet.monkey_patch()
+
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
-import eventlet
-from eventlet import wsgi
+
+import dotenv
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -100,4 +104,4 @@ def create_post():
     return redirect(url_for('chat_join') + f"?code={code}&name={name}", code=307) #sends as post
 
 if __name__ == '__main__':
-    wsgi.server(eventlet.listen(('', 3000)), app)
+    app.run(host='0.0.0.0', port=3000)
