@@ -6,4 +6,5 @@ ADD . .
 
 EXPOSE 3000
 
-CMD ["gunicorn", "-k", "eventlet", "-w", "1", "app:app"]
+# CMD ["gunicorn", "-k", "eventlet", "-w", "1", "app:app"]
+CMD ["python3", "app.py"]
