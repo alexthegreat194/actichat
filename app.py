@@ -3,6 +3,9 @@ import os
 import random
 import string
 
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 
