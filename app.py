@@ -4,10 +4,13 @@ import random
 import string
 
 import eventlet
-eventlet.monkey_patch()
+# eventlet.monkey_patch()
 
 from flask import Flask, render_template, url_for, request, redirect
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
+
+import dotenv
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
