@@ -1,103 +1,25 @@
-from datetime import datetime
 import os
-import random
-import string
+import logging
 
-from flask import Flask, render_template, url_for, request, redirect
-from flask_socketio import SocketIO, emit, send, join_room, leave_room
-import eventlet
-from eventlet import wsgi
+# Must be before other imports for production async workers
+async_mode = os.environ.get('ASYNC_MODE', 'threading')
+if async_mode == 'eventlet':
+    import eventlet
+    eventlet.monkey_patch()
+elif async_mode == 'gevent':
+    from gevent import monkey
+    monkey.patch_all()
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-# app.config['SERVER_NAME'] = '127.0.0.1:5000'
+from src.web_server import app
+from src.socket_server import socketio
 
-socketio = SocketIO(app)
+secret_key = os.environ.get('SECRET_KEY')
+if not secret_key:
+    raise ValueError("SECRET_KEY environment variable must be set in production")
+app.config['SECRET_KEY'] = secret_key
 
-clients = {}
-
-# Sockets
-@socketio.on('client_connect')
-def connect(data):
-    print('received json: ' + str(data))
-    if data['code'] not in clients.keys():
-        clients[data['code']] = []
-    clients[data['code']].append(request.sid)
-        
-    print(clients)
-
-@socketio.on('disconnect')
-def disconnect():
-    print('client disconnected: ' + str(request.sid))
-    stop = False
-    for key in clients.keys():
-        for id in clients[key]:
-            if id == request.sid:
-                clients[key].remove(id)
-                if len(clients[key])== 0:
-                    del clients[key]
-                stop = True
-                break
-        if stop:
-            break
-
-@socketio.on('message')
-def handle_message(data):
-    print('received json: ' + str(data))
-    clients_to_send = clients[data['code']]
-    print('Sending to clients: ' + str(clients_to_send))
-    emit('message', data, broadcast=True, rooms=clients_to_send)
-
-
-# Routes
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
-
-@app.route('/join', methods=['GET'])
-def join():
-    return render_template('join.html')
-
-@app.route('/join/<code>', methods=['GET'])
-def join_code(code):
-    return render_template('join.html', code=code)
-
-@app.route('/join', methods=['POST'])
-def join_post():
-    data = {
-        'name': request.form.get('name'),
-        'code': request.form.get('code')
-    }
-    if data['name'] == '':
-        data['name'] = 'Anonymous'
-    return redirect(url_for('chat_join') + f"?code={data['code']}&name={data['name']}", code=307) #sends as post
-    
-
-@app.route('/chat', methods=['GET'])
-def chat():
-    return redirect(url_for('join'))
-
-@app.route('/chat', defaults={'name':'Anonymous', 'code': ''}, methods=['POST'])
-def chat_join(name, code):
-    name = request.args.get('name')
-    code = request.args.get('code')
-    return render_template('chat.html', code=code, name=name)
-
-@app.route('/create', methods=['GET'])
-def create():
-    return render_template('create.html')
-
-@app.route('/create', methods=['POST'])
-def create_post():
-    name = request.form.get('name')
-    code = ""
-    for i in range(8):
-        code += random.choice(string.ascii_lowercase)
-    print('new code: ' + str(code) + " from " + str(name))
-    if name == '':
-        name = 'Anonymous'
-    
-    return redirect(url_for('chat_join') + f"?code={code}&name={name}", code=307) #sends as post
+app.logger.setLevel(logging.INFO)
 
 if __name__ == '__main__':
-    wsgi.server(eventlet.listen(('', 3000)), app)
+    debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    socketio.run(app, host='0.0.0.0', port=3000, debug=debug, allow_unsafe_werkzeug=True)
