@@ -1,0 +1,69 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Warm-up phase
+    - duration: 10
+      arrivalRate: 2
+      name: "Warm up"
+    # Ramp up load
+    - duration: 30
+      arrivalRate: 5
+      rampTo: 20
+      name: "Ramp up"
+    # Sustained load
+    - duration: 60
+      arrivalRate: 20
+      name: "Sustained load"
+  engines:
+    socketio-v3:
+      transports: ["websocket"]
+  socketio:
+    transports: ["websocket"]
+
+scenarios:
+  - name: "Join room and send messages"
+    engine: socketio-v3
+    flow:
+      # Connect to server
+      - emit:
+          channel: "client_connect"
+          data:
+            code: "testroom"
+      - think: 1
+      
+      # Send multiple messages
+      - loop:
+        - emit:
+            channel: "message"
+            data:
+              code: "testroom"
+              name: "LoadTestUser"
+              message: "Hello from Artillery load test!"
+        - think: 2
+        count: 5
+      
+      # Stay connected for a bit
+      - think: 5
+
+  - name: "Multiple rooms simulation"
+    engine: socketio-v3
+    flow:
+      # Join a random room
+      - emit:
+          channel: "client_connect"
+          data:
+            code: "room{{ $randomNumber(1, 10) }}"
+      - think: 1
+      
+      # Send messages
+      - loop:
+        - emit:
+            channel: "message"
+            data:
+              code: "room{{ $randomNumber(1, 10) }}"
+              name: "User{{ $randomNumber(1, 100) }}"
+              message: "Test message {{ $randomNumber(1, 1000) }}"
+        - think: 3
+        count: 3
+      
+      - think: 10

@@ -1,0 +1,27 @@
+# Quick smoke test - use for rapid validation
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 2
+      name: "Quick test"
+  engines:
+    socketio-v3:
+      transports: ["websocket"]
+
+scenarios:
+  - name: "Basic connection test"
+    engine: socketio-v3
+    flow:
+      - emit:
+          channel: "client_connect"
+          data:
+            code: "quicktest"
+      - think: 1
+      - emit:
+          channel: "message"
+          data:
+            code: "quicktest"
+            name: "QuickTestUser"
+            message: "Quick test message"
+      - think: 2
